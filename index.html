@@ -4,18 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCH Clinical Inquiry Navigator</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* --- ALL STYLES INCLUDED HERE --- */
+        :root { --bch-teal: #0a9396; --bch-dark: #005f73; --bch-light: #94d2bd; --accent: #ee9b00; --bg-color: #f0f4f5; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        .main-container { width: 100%; max-width: 650px; }
+        .card { background: white; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
+        .hidden { display: none; }
+        h1 { color: var(--bch-dark); font-size: 1.8rem; margin-bottom: 15px; }
+        h2 { background: linear-gradient(120deg, var(--bch-teal), var(--bch-light)); color: white; padding: 15px; border-radius: 10px; font-size: 1.4rem; margin-top: 0; }
+        p { line-height: 1.6; color: #444; }
+        textarea { width: 100%; min-height: 120px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 1rem; box-sizing: border-box; margin-top: 10px; outline: none; }
+        .primary-btn { background: var(--bch-teal); color: white; border: none; padding: 18px 30px; border-radius: 50px; width: 100%; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .option-btn { background: white; border: 2px solid var(--bch-light); padding: 18px; border-radius: 12px; width: 100%; margin-bottom: 12px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+        .option-btn:hover { background: #f0f9f7; border-color: var(--bch-teal); }
+        .secondary-btn { background: #e0f2f1; color: var(--bch-dark); border: none; padding: 12px 25px; border-radius: 50px; margin-top: 30px; cursor: pointer; }
+        .icon { font-size: 3.5rem; margin-bottom: 10px; }
+        .knowledge-boost { background: #fff9db; border-left: 6px solid var(--accent); padding: 20px; text-align: left; margin: 25px 0; border-radius: 0 12px 12px 0; }
+        .ms-form-container { margin-top: 40px; padding-top: 25px; border-top: 2px solid #eee; }
+        .embedded-form-wrapper { border-radius: 15px; overflow: hidden; background: #fff; margin-top: 15px; border: 1px solid #ddd; }
+        @media (max-width: 600px) { .card { padding: 20px; } h1 { font-size: 1.5rem; } .embedded-form-wrapper iframe { height: 800px; } }
+    </style>
 </head>
 <body>
     <div class="main-container">
         <div id="app">
-            
-            <div id="stage-start" class="card active">
+            <div id="stage-start" class="card">
                 <div class="icon">🚀</div>
                 <h1>Clinical Innovation Launchpad</h1>
                 <p>Nurses see the solutions kids need before anyone else. Got a "fire in your belly" to change something? Let's figure out your roadmap.</p>
-                <div class="form-group">
-                    <label>What's the spark? Describe your idea:</label>
+                <div style="text-align: left; margin-top: 20px;">
+                    <label style="font-weight: bold;">What's the spark? Describe your idea:</label>
                     <textarea id="initial-idea" placeholder="e.g. 'I want to improve how we prep toddlers for IV starts...'"></textarea>
                 </div>
                 <button class="primary-btn" onclick="startJourney()">Start My Roadmap</button>
@@ -28,24 +47,73 @@
             <div id="stage-results" class="card hidden">
                 <div id="result-classification"></div>
                 <div id="result-teaching"></div>
-                
                 <div class="knowledge-boost">
                     <h4>💡 Your Pediatric "Power Move":</h4>
                     <div id="power-move-text"></div>
                 </div>
-
-                <div class="ms-form-container">
+                <div id="form-area" class="ms-form-container">
                     <h3>Ready to take the next step?</h3>
                     <p>Fill out the details below to send your spark directly to the Inquiry Team.</p>
-                    
                     <div class="embedded-form-wrapper">
-                        <iframe width="100%" height="600px" src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=ujVNtXsQxUK9PCA4DpccBgKa2c2pzohOr8mZReyZa1xURFhJNldVTDhUTDVTVk5ZN1U2QVdOVTIxTC4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%;" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+                        <iframe width="100%" height="600px" src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=ujVNtXsQxUK9PCA4DpccBgKa2c2pzohOr8mZReyZa1xURFhJNldVTDhUTDVTVk5ZN1U2QVdOVTIxTC4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%;" allowfullscreen></iframe>
                     </div>
                 </div>
-
-                <button class="secondary-btn" onclick="resetJourney()">Start Over with a New Idea</button>
+                <button class="secondary-btn" onclick="location.reload()">Start Over</button>
             </div>
+        </div>
+    </div>
 
-        </div> </div> <script src="script.js"></script>
+    <script>
+        const quizData = {
+            nodes: {
+                0: { title: "Step 1: The Foundation", icon: "🔍", question: "Has anyone solved this before? Have you performed a literature review or checked internal policies?", teaching: "Innovation starts with knowing what already works.", options: [{ text: "Yes, I have looked at the evidence.", nextNode: 1 }, { text: "No, not yet—I need a head start.", result: "ResultA" }] },
+                1: { title: "Step 2: Evidence Strength", icon: "📊", question: "What did the evidence show about your idea?", teaching: "If the science is strong, we implement. If it's missing, we discover.", options: [{ text: "The evidence is strong and points to a best practice.", nextNode: 2 }, { text: "The evidence is lacking, conflicting, or doesn't exist.", nextNode: 3 }] },
+                2: { title: "Step 3: What's the Goal?", icon: "🛠️", question: "The answer exists! What are you trying to do with it?", teaching: "EBP translates science; QI fixes workflows.", options: [{ text: "Implement this best practice into daily care.", result: "ResultEBP" }, { text: "Fix a local workflow or process snag.", result: "ResultQI" }] },
+                3: { title: "Step 3: Your Intention", icon: "🔬", question: "The evidence is missing. How do you want to find the answer?", teaching: "Research creates universal knowledge; QI trials local fixes.", options: [{ text: "Design a formal study for new general knowledge.", result: "ResultResearch" }, { text: "Trial a practical fix locally (PDSA).", result: "ResultQI" }] }
+            },
+            results: {
+                ResultA: { title: "🔍 Let's Get the Evidence", text: "Pause! You need to know what exists first. Check <b>Consensus.app</b> or contact the <b>Library</b>.", power: "A quick search can turn an 'idea' into a 'proposal' in minutes.", terminal: true },
+                ResultEBP: { title: "✨ That's Evidence-Based Practice!", text: "You're translating <b>existing knowledge</b> into practice for our kids.", power: "Ask your Educator: 'How does current policy compare to this new evidence?'", terminal: false },
+                ResultQI: { title: "🚀 That's Quality Improvement!", text: "You're making <b>our hospital</b> work better, safer, and faster.", power: "Ask your manager about a 'PDSA Cycle.' It's the fastest way to test a fix.", terminal: false },
+                ResultResearch: { title: "🧬 That's Clinical Research!", text: "You're pioneering <b>new knowledge</b> that the whole world can use.", power: "Document the 'Gap in Knowledge.' This is the start of your IRB proposal.", terminal: false }
+            }
+        };
+
+        function startJourney() {
+            const idea = document.getElementById('initial-idea').value;
+            if (!idea.trim()) return alert("Nurses have the best ideas! Share yours to start.");
+            document.getElementById('stage-start').classList.add('hidden');
+            document.getElementById('stage-quiz').classList.remove('hidden');
+            showNode(0);
+        }
+
+        function showNode(id) {
+            const node = quizData.nodes[id];
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="icon">${node.icon}</div>
+                <h1>${node.title}</h1>
+                <p><em>${node.teaching}</em></p>
+                <p><strong>${node.question}</strong></p>
+                ${node.options.map((opt, i) => `<button class="option-btn" onclick="handleOption(${id}, ${i})">${opt.text}</button>`).join('')}
+            `;
+            window.scrollTo(0,0);
+        }
+
+        function handleOption(nodeId, optIdx) {
+            const option = quizData.nodes[nodeId].options[optIdx];
+            option.nextNode !== undefined ? showNode(option.nextNode) : showResult(option.result);
+        }
+
+        function showResult(resKey) {
+            const res = quizData.results[resKey];
+            document.getElementById('stage-quiz').classList.add('hidden');
+            document.getElementById('stage-results').classList.remove('hidden');
+            document.getElementById('result-classification').innerHTML = `<h2>${res.title}</h2>`;
+            document.getElementById('result-teaching').innerHTML = `<p>${res.text}</p>`;
+            document.getElementById('power-move-text').innerHTML = res.power;
+            if (res.terminal) document.getElementById('form-area').classList.add('hidden');
+            window.scrollTo(0,0);
+        }
+    </script>
 </body>
 </html>
