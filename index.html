@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCH Clinical Inquiry Navigator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div id="app">
+            <div id="stage-start" class="card active">
+                <div class="icon">🚀</div>
+                <h1>Clinical Innovation Launchpad</h1>
+                <p>Nurses see the solutions kids need before anyone else. Got a "fire in your belly" to change something? Let's figure out your roadmap.</p>
+                <div class="form-group">
+                    <label>What's the spark? Describe your idea:</label>
+                    <textarea id="initial-idea" placeholder="e.g. 'I want to improve how we prep toddlers for IV starts...'"></textarea>
+                </div>
+                <button class="primary-btn" onclick="startJourney()">Start My Roadmap</button>
+            </div>
+
+            <div id="stage-quiz" class="card hidden">
+                <div id="quiz-content"></div>
+            </div>
+
+            <div id="stage-results" class="card hidden">
+                <div id="result-classification"></div>
+                <div id="result-teaching"></div>
+                
+                <div class="knowledge-boost">
+                    <h4>💡 Your Pediatric "Power Move":</h4>
+                    <div id="power-move-text"></div>
+                </div>
+
+                <div class="ms-form-container">
+                    <h3>Ready to take the next step?</h3>
+                    <p>Fill out the details below to send your spark directly to the Inquiry Team.</p>
+                    <div class="form-placeholder">
+                        <p style="color: #666; font-style: italic;">[ Paste your Microsoft Form Embed Code Here ]</p>
+                    </div>
+                </div>
+                <button class="secondary-btn" onclick="resetJourney()">Start Over with a New Idea</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
