@@ -1,98 +1,166 @@
-const quizData = {
-    nodes: {
-        0: {
-            title: "Step 1: Check the Foundation",
-            question: "Has anyone solved this before? Have you looked at the literature or BCH internal policies?",
-            options: [
-                { text: "Yes, I've checked the evidence.", nextNode: 1 },
-                { text: "No, I need a head start on searching.", result: "ResultA" }
-            ]
-        },
-        1: {
-            title: "Step 2: The Evidence",
-            question: "What does the science say about your idea?",
-            options: [
-                { text: "There's a clear 'Best Practice' already out there.", nextNode: 2 },
-                { text: "The evidence is thin or totally missing.", nextNode: 3 }
-            ]
-        },
-        2: {
-            title: "Step 3: Your Goal",
-            question: "The answer exists! What are you trying to do?",
-            options: [
-                { text: "Bring that best practice to my unit's bedside.", result: "ResultEBP" },
-                { text: "Fix a local process or workflow snag.", result: "ResultQI" }
-            ]
-        },
-        3: {
-            title: "Step 3: Your Intention",
-            question: "The science is missing. What's your next move?",
-            options: [
-                { text: "I want to prove a new theory for all of pediatrics.", result: "ResultResearch" },
-                { text: "I just want to trial a fix here on my unit.", result: "ResultQI" }
-            ]
-        }
-    },
-    results: {
-        ResultA: {
-            title: "🔍 Let's Get You the Evidence",
-            text: "Before we build, we check the blueprints. Use <b>Consensus.app</b> (AI Research) or reach out to the <b>BCH Librarian</b> tonight!",
-            power: "Knowledge is power. Finding a single article can turn an 'idea' into a 'proposal' in 10 minutes.",
-            terminal: true
-        },
-        ResultEBP: {
-            title: "✨ This is Evidence-Based Practice!",
-            text: "You aren't reinventing the wheel—you're making sure our kids get the <i>best</i> wheel available.",
-            power: "Ask your Clinical Educator: 'What is our current policy vs. what the literature suggests?'",
-            terminal: false
-        },
-        ResultQI: {
-            title: "🚀 This is Quality Improvement!",
-            text: "You've spotted a system gap. This is about making <i>our</i> hospital work better, safer, and faster.",
-            power: "Ask your manager about a 'PDSA Cycle.' It's the fastest way to test a small change by tomorrow.",
-            terminal: false
-        },
-        ResultResearch: {
-            title: "🧬 This is Clinical Research!",
-            text: "You're a pioneer. You've found a question that the world hasn't answered yet.",
-            power: "Start a 'Reflection Log.' Documenting exactly where the knowledge gap is will be your first step for the IRB.",
-            terminal: false
-        }
+/* --- GLOBAL THEME --- */
+:root {
+    --bch-teal: #0a9396;
+    --bch-dark: #005f73;
+    --bch-light: #94d2bd;
+    --accent: #ee9b00;
+    --bg-color: #f0f4f5;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 650px;
+}
+
+/* --- CARD SYSTEM --- */
+.card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+/* --- TYPOGRAPHY --- */
+h1 {
+    color: var(--bch-dark);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+h2 {
+    background: linear-gradient(120deg, var(--bch-teal), var(--bch-light));
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.4rem;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+}
+
+/* --- INPUTS & BUTTONS --- */
+textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-top: 10px;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: var(--bch-teal);
+}
+
+.primary-btn {
+    background: var(--bch-teal);
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    border-radius: 50px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.primary-btn:hover {
+    background: var(--bch-dark);
+}
+
+.option-btn {
+    background: white;
+    border: 2px solid var(--bch-light);
+    padding: 18px;
+    border-radius: 12px;
+    width: 100%;
+    margin-bottom: 12px;
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option-btn:hover {
+    background: #f0f9f7;
+    border-color: var(--bch-teal);
+}
+
+.secondary-btn {
+    background: #e0f2f1;
+    color: var(--bch-dark);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+/* --- PEDS INNOVATION ELEMENTS --- */
+.icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.knowledge-boost {
+    background: #fff9db;
+    border-left: 6px solid var(--accent);
+    padding: 20px;
+    text-align: left;
+    margin: 25px 0;
+    border-radius: 0 12px 12px 0;
+}
+
+.knowledge-boost h4 {
+    margin-top: 0;
+    color: #856404;
+}
+
+/* --- MS FORM INTEGRATION --- */
+.ms-form-container {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 2px solid #eee;
+}
+
+.embedded-form-wrapper {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+    background: #fff;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 600px) {
+    body { padding: 10px; }
+    .card { padding: 20px; }
+    h1 { font-size: 1.5rem; }
+    .embedded-form-wrapper iframe {
+        height: 850px; /* Forms get longer on mobile stacks */
     }
-};
-
-let currentIdea = "";
-
-function startJourney() {
-    currentIdea = document.getElementById('initial-idea').value;
-    if(!currentIdea) return alert("Share your spark first!");
-    document.getElementById('stage-start').classList.add('hidden');
-    document.getElementById('stage-quiz').classList.remove('hidden');
-    showNode(0);
 }
-
-function showNode(id) {
-    const node = quizData.nodes[id];
-    document.getElementById('quiz-content').innerHTML = `
-        <h1>${node.title}</h1>
-        <p>${node.question}</p>
-        ${node.options.map((opt, i) => `<button class="option-btn" onclick="optClick(${id},${i})">${opt.text}</button>`).join('')}
-    `;
-}
-
-function optClick(nodeId, optIdx) {
-    const opt = quizData.nodes[nodeId].options[optIdx];
-    opt.nextNode !== undefined ? showNode(opt.nextNode) : showResult(opt.result);
-}
-
-function showResult(resKey) {
-    const res = quizData.results[resKey];
-    document.getElementById('stage-quiz').classList.add('hidden');
-    document.getElementById('stage-results').classList.remove('hidden');
-    document.getElementById('result-classification').innerHTML = `<h1>${res.title}</h1>`;
-    document.getElementById('result-teaching').innerHTML = `<p>${res.text}</p>`;
-    document.getElementById('power-move-text').innerHTML = res.power;
-    if(res.terminal) document.querySelector('.ms-form-container').classList.add('hidden');
-}
-
-function resetJourney() { location.reload(); }
