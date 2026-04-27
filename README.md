@@ -1,1 +1,1 @@
-# Clinical-Inquiry-Decision-Tree
+# Clinical-Inquiry-Navigator
